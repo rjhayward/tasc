@@ -1,0 +1,159 @@
+/* Readable single-column layout for LaTeXML output.
+   Add with:  latexmlc --css=paper.css --dest=site/index.html Paper.tex  */
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #222222;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* The key rule: a centred column of comfortable reading width */
+.ltx_page_main,
+.ltx_page_content {
+  max-width: 54em;
+  margin: 0 auto;
+  padding: 0 1.25em;
+}
+
+/* Title block */
+.ltx_title_document {
+  font-size: 2em;
+  line-height: 1.25;
+  text-align: center;
+  margin-top: 1.5em;
+}
+.ltx_authors {
+  display: block;
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+/* Section headings */
+.ltx_title_section    { font-size: 1.45em; margin-top: 2em; }
+.ltx_title_subsection { font-size: 1.2em;  margin-top: 1.5em; }
+
+/* Abstract */
+.ltx_abstract {
+  margin: 2em 0;
+  font-size: 0.95em;
+}
+
+/* Figures and tables never wider than the column */
+.ltx_figure img,
+img.ltx_graphics {
+  max-width: 100%;
+  height: auto;
+}
+.ltx_table,
+.ltx_equation {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.ltx_caption {
+  font-size: 0.9em;
+  color: #444444;
+}
+
+/* Links and references */
+a { color: #1a5fb4; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.ltx_bibliography { font-size: 0.9em; }
+
+/* ---------- Sticky contents sidebar with current-section highlight ---------- */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 1rem; }
+
+/* Wide screens: contents list fixed on the left, paper centred in the rest */
+@media (min-width: 1100px) {
+  body { padding-left: 17rem; }
+  .ltx_page_navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15rem;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: content-box;
+    padding: 2rem 1rem;
+    border-right: 1px solid #e5e5e5;
+    background: #fafafa;
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 0.8em;
+    line-height: 1.4;
+  }
+}
+/* Narrow screens (phones): hide the list rather than putting it above the paper */
+@media (max-width: 1099px) {
+  .ltx_page_navbar { display: none; }
+}
+
+.ltx_page_navbar ol { list-style: none; margin: 0; padding-left: 0; }
+.ltx_page_navbar ol ol { padding-left: 0.9em; }
+.ltx_page_navbar .ltx_tocentry_paragraph { display: none; }  /* hide "Deterministic Policy:"-style entries */
+.ltx_page_navbar a {
+  display: block;
+  padding: 0.25em 0.6em;
+  color: #555555;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+}
+.ltx_page_navbar a:hover { color: #1a5fb4; }
+.ltx_page_navbar a.active {
+  color: #1a5fb4;
+  font-weight: 600;
+  border-left-color: #1a5fb4;
+  background: #eef3fb;
+}
+
+/* Make every figure image fill the width of the text column */
+.ltx_figure {
+  margin-left: 0;
+  margin-right: 0;
+}
+.ltx_figure img.ltx_graphics {
+  width: 66%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+/* Tables: slightly smaller text, no side margins, scroll sideways only if still too wide */
+.ltx_table {
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 0.85em;
+  overflow-x: auto;
+}
+
+
+/* ---------- Header block above the paper (video, links, ICINCO notice) ---------- */
+.tasc-header { max-width: 54em; margin: 2em auto; padding: 0 1.25em; box-sizing: border-box; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+/* .tasc-header video { width: 100%; border-radius: 8px; } */
+.tasc-header video { width: 66%; height: auto; display: block; margin: 0 auto; border-radius: 8px; }
+.tasc-header .links { text-align: center; }
+.tasc-header .notice { font-size: 0.85em; color: #555555; }
+
+/* ---------- Phones and narrow windows ---------- */
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  .ltx_figure img.ltx_graphics { width: 100%; }
+  .tasc-header video { width: 100%; }
+  .ltx_page_main, .ltx_page_content, .tasc-header { padding: 0 0.8em; }
+
+  /* Tables: smaller text and let cells wrap so they fit the screen */
+  .ltx_table { font-size: 0.68em; }
+  .ltx_table .ltx_tabular { width: 100%; }
+  .ltx_table .ltx_td, .ltx_table .ltx_th {
+    white-space: normal !important;
+    padding: 0.15em 0.25em !important;
+  }
+
+  /* Equations: slightly smaller, and if one is still too wide it scrolls
+     inside its own box instead of making the whole page wider */
+  table.ltx_equation, table.ltx_equationgroup, table.ltx_eqn_table {
+    display: block; max-width: 100%; overflow-x: auto; font-size: 0.9em;
+  }
+  .ltx_eqn_center_padleft, .ltx_eqn_center_padright { width: 0 !important; padding: 0 !important; }
+}
